@@ -1,0 +1,27 @@
+<h3 class="title">School</h3>
+
+<table class="table table-bordered table-hover">
+  <colgroup span="3"></colgroup>
+  <thead class="thead-dark">
+  <th scope="col">Student Name</th>
+  <th scope="col">Address</th>
+  <th colspan="4" scope="colgroup">Phones</th>
+  <th scope="col">Operations</th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let student of subjectStudentDetail.students; let i=index">
+    <td>{{student.name}}</td>
+    <td>{{student.address}}</td>
+    <td>{{student.phones[0].key}}</td>
+    <td>{{student.phones[0].value}}</td>
+    <td>{{student.phones[1].key}}</td>
+    <td>{{student.phones[1].value}}</td>
+    <td>
+      <a (click)="deleteStudentSubject(student._id, i)">
+        <i class="material-icons icon-red">delete</i>
+      </a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
