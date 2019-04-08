@@ -1,6 +1,6 @@
 # Examen1
 
-Students and Subjects CRUD using MEAN stack.
+Bikes and Stations CRUD using MEAN stack.
 
 ---
 
@@ -13,25 +13,25 @@ Students and Subjects CRUD using MEAN stack.
 
 ## Models
 
-##### StudentService schema
+##### Bike schema
 
 ```javascript
-const StudentSchema = new Schema({
-    name: { type: String, required: true },
-    address: { type: String, required: true },
-    phones: [{
-        key: String,
-        value: String
-    }]
+const BikeSchema = new Schema({
+    bike: { type: String, required: true },
+    kms: { type: Number, required: true },
+    description: { type: String, required: true, unique: true },
+    assigned: { type: Boolean, required: true, unique: false }
 });
 ```
 
-##### SubjectService schema
+##### Station schema
 
 ```javascript
-const SubjectSchema = new Schema ({
-    name: { type: String, required: true, unique: true },
-    students: [{ type: Schema.ObjectId, ref: 'StudentService', unique: false }]
+const StationSchema = new Schema ({
+    station: { type: String, required: true, unique: true },
+    state: { type: String, required: true, unique: true },
+    description: { type: String, required: true, unique: true },
+    bikes: [{ type: Schema.ObjectId, ref: 'Bike', unique: false }]
 });
 ```
 
@@ -39,20 +39,15 @@ const SubjectSchema = new Schema ({
 
 | Model | Type | Routes | Description |
 | :---:| :---: | --- | --- |
-| SUBJECT | GET | /subjects | Get all Subjects |
-|  | GET | /subjects/**:subjectId** | Get the detail of a subject |
-|  | GET | /subjects/**:subjectId**/studentdetail | Get the student detail of a subject |
-|  | POST | /subjects/adduser | Add StudentService into a subject |
-|  | POST | /subjects | Add a new subject |
-|  | DELETE | /subjects/**:subjectId** | Delete SubjectService |
-| STUDENT | GET | /students | Get all Students |
-|  | POST | /students | Add a new student |
-|  | DELETE | /students/**:studentId** | Delete StudentService |
-|  | PUT | /students/**:studentId** | Update StudentService
+| STATION | GET | /stations | Get all Stations |
+|  | GET | /stations/**:stationId**/bikedetail | Get the bike detail of a station |
+|  | POST | /subjects/addbike | Add Bike into a Station |
+|  | POST | /stations | Add a new Station |
+|  | DELETE | /stations/**:stationId**/deletebike/**:bikeId** | Delete a Bike of a Station |
+| BIKE | GET | /bikes | Get all Bikes |
+|  | GET | /bikes/unassigned | Get all Unassigned Bikes |
+|  | POST | /bikes | Add a new bike |
 
-##### Swagger
-
-![Captura de pantalla 2019-04-05 a las 12 29 23](https://user-images.githubusercontent.com/43316590/55621663-71f76a00-579e-11e9-9153-77ed8ecf39f7.png)
 
 #### Technologies
 
