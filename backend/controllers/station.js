@@ -1,24 +1,26 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const Student = require('../models/student');
-const Subject = require('../models/subject');
+const Bike = require('../models/bike');
+const Station = require('../models/station');
 
 /**
- * Add new SubjectService to the subject collection
+ * Add new Station to the station collection
  * @param req
  * @param res
  * @returns {Promise<void>}
  */
-async function postSubject(req, res) {
-    console.log('Subject Name', req.body.name);
-    const subject = new Subject();
-    subject.name = req.body.name;
-    console.log(subject);
+async function postStation(req, res) {
+    console.log('Station Name', req.body.name);
+    const station = new Station();
+    station.station = req.body.station;
+    station.state = req.body.state;
+    station.description = req.body.description;
+    console.log(station);
 
     try {
-        await subject.save();
-        res.status(200).send({message: "Subject created successfully"})
+        await station.save();
+        res.status(200).send({message: "Station created successfully"})
     } catch (err) {
         res.status(500).send(err);
         console.log(err);
@@ -26,15 +28,15 @@ async function postSubject(req, res) {
 }
 
 /**
- * Get all the subjects
+ * Get all the stations
  * @param req
  * @param res
  * @returns {Promise<void>}
  */
-async function getSubjects(req, res) {
+async function getStations(req, res) {
     try {
-        let subjects = await Subject.find().select({students: 0});
-        res.status(200).send(subjects);
+        let stations = await Station.find().select({bikes: 0});
+        res.status(200).send(stations);
     } catch(err) {
         res.status(500).send(err)
     }
@@ -69,24 +71,24 @@ async function getSubjectDetail(req, res) {
  * @param res
  * @returns {Promise<void>}
  */
-async function postStudentSubject(req, res) {
+async function postStationBike(req, res) {
     try{
-        const subjectId = req.body.subjectId;
-        const studentId = req.body.studentId;
+        const bikeId = req.body.bikeId;
+        const stationId = req.body.stationId;
 
-        console.log(`SubjectID: ${subjectId}, StudentID: ${studentId}`);
+        console.log(`StationID: ${stationId}, BikeID: ${bikeId}`);
 
-        let studentFound = await Student.findById(studentId);
+        let bikeFound = await Bike.findById(bikeId);
 
-        if (!studentFound) {
-            return res.status(404).send({message: 'Student not found'})
+        if (!bikeFound) {
+            return res.status(404).send({message: 'Bike not found'})
         } else {
-            let subjectUpdated = await Subject.findOneAndUpdate({_id: subjectId}, {$addToSet: {students: studentId}});
-            if (!subjectUpdated) {
-                return res.status(404).send({message: 'Subject not found'})
+            let stationUpdated = await Station.findOneAndUpdate({_id: stationId}, {$addToSet: {bikes: bikeId}});
+            if (!stationUpdated) {
+                return res.status(404).send({message: 'Station not found'})
             }
         }
-        res.status(200).send({message: "Student added successfully to the subject"})
+        res.status(200).send({message: "Bike added successfully to the station"})
     } catch(err) {
         if (err.name === 'MongoError' && err.code === 11000) {
             res.status(409).send({err: err.message, code: err.code})
@@ -96,22 +98,22 @@ async function postStudentSubject(req, res) {
 }
 
 /**
- * Get the details of the students of a specific subject
+ * Get the details of the bikes of a specific station
  * @param req
  * @param res
  * @returns {Promise<*>}
  */
-async function getStudentSubjectDetail(req, res) {
+async function getStationBikeDetail(req, res) {
     try {
-        const _id = req.params.subjectId;
+        const _id = req.params.stationId;
 
-        //We use populate to return the detail of every student
-        //Populates automatically find every student that has the specified ID, instead of doing by us
-        let subject = await Subject.findById(_id).populate('students');
-        if(!subject){
-            return res.status(404).send({message: 'Subject not found'})
+        //We use populate to return the detail of every bike
+        //Populates automatically find every bike that has the specified ID, instead of doing by us
+        let station = await Station.findById(_id).populate('bikes');
+        if(!station){
+            return res.status(404).send({message: 'Station not found'})
         }else{
-            res.status(200).send(subject)
+            res.status(200).send(station)
         }
     } catch(err) {
         res.status(500).send(err)
@@ -144,27 +146,26 @@ async function deleteSubject(req, res) {
  * @param res
  * @returns {Promise<*>}
  */
-async function deleteStudentSubject(req,res) {
-    console.log("I'm in");
+async function deleteBikeStation(req,res) {
     try{
-        const subjectId = req.body.subjectId;
-        const studentId = req.body.studentId;
+        const stationId = req.params.stationId;
+        const bikeId = req.params.bikeId;
 
-        console.log(`SubjectID: ${subjectId}, StudentID: ${studentId}`);
+        console.log(`StationID: ${stationId}, BikeID: ${bikeId}`);
 
-        let subject = await Subject.findById(subjectId);
-        if(!subject){
-            return res.status(404).send({message: 'Subject not found'})
+        let station = await Station.findById(stationId);
+        if(!station){
+            return res.status(404).send({message: 'Station not found'})
         }else{
-            mongoose.Types.ObjectId(studentId);
+            mongoose.Types.ObjectId(bikeId);
 
-            let subjectUpdated = await Subject.update({_id: subjectId}, {$pull: {students: studentId}});
+            let stationUpdated = await Station.update({_id: stationId}, {$pull: {bikes: bikeId}});
 
-            if (subjectUpdated.nModified === 0) {
-                return res.status(404).send({message: 'Student not found'})
+            if (stationUpdated.nModified === 0) {
+                return res.status(404).send({message: 'Bike not found'})
             }
         }
-        res.status(200).send({message:'Student deleted successfully'});
+        res.status(200).send({message:'Bike deleted successfully'});
     }catch(err){
         res.status(500).send(err)
     }
@@ -175,11 +176,11 @@ async function deleteStudentSubject(req,res) {
  * @type {{getSubjectDetail: getSubjectDetail, postSubject: postSubject, deleteSubject: deleteSubject, postStudentSubject: postStudentSubject, getSubjects: getSubjects, deleteStudentSubject: deleteStudentSubject, getStudentSubjectDetail: getStudentSubjectDetail}}
  */
 module.exports = {
-    postSubject,
-    getSubjects,
+    postStation,
+    getStations,
     getSubjectDetail,
-    postStudentSubject,
-    getStudentSubjectDetail,
+    postStationBike,
+    getStationBikeDetail,
     deleteSubject,
-    deleteStudentSubject
+    deleteBikeStation
 };

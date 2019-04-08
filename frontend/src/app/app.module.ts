@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,7 +16,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SubjectdetailComponent } from './components/subjectdetail/subjectdetail.component';
+import { StationdetailComponent } from './components/stationdetail/stationdetail.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddstudentComponent } from './components/addstudent/addstudent.component';
 import { UpdatestudentComponent } from './components/updatestudent/updatestudent.component';
@@ -24,7 +24,7 @@ import { UpdatestudentComponent } from './components/updatestudent/updatestudent
 @NgModule({
   declarations: [
     AppComponent,
-    SubjectdetailComponent,
+    StationdetailComponent,
     DashboardComponent,
     AddstudentComponent,
     UpdatestudentComponent

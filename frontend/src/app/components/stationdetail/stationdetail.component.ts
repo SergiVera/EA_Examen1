@@ -4,11 +4,11 @@ import {SubjectService} from '../../services/subject.service';
 import {Subject} from '../../models/subject';
 
 @Component({
-  selector: 'app-productdetail',
-  templateUrl: './subjectdetail.component.html',
-  styleUrls: ['./subjectdetail.component.css']
+  selector: 'app-stationdetail',
+  templateUrl: './stationdetail.component.html',
+  styleUrls: ['./stationdetail.component.css']
 })
-export class SubjectdetailComponent implements OnInit {
+export class StationdetailComponent implements OnInit {
 
   subjectStudentDetail: Subject;
   body: object;

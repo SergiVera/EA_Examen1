@@ -1,4 +1,4 @@
-# Minimo1
+# Examen1
 
 Students and Subjects CRUD using MEAN stack.
 
