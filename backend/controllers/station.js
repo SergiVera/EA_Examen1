@@ -43,30 +43,7 @@ async function getStations(req, res) {
 }
 
 /**
- * Get the details of a specific subject given its id
- * @param req
- * @param res
- * @returns {Promise<void>}
- */
-async function getSubjectDetail(req, res) {
-    try {
-        const _id = req.params.subjectId;
-
-        //We use populate to return the detail of every student, but only the name
-        //Populates automatically find every student that has the specified ID, instead of doing by us
-        let subject = await Subject.findById(_id).populate('students', 'name');
-        if(!subject){
-            return res.status(404).send({message: 'Subject not found'})
-        }else{
-            res.status(200).send(subject)
-        }
-    } catch(err) {
-        res.status(500).send(err)
-    }
-}
-
-/**
- * Add student to a subject, only if this student has not been added previously
+ * Add bike to a station, only if this bike is unassigned
  * @param req
  * @param res
  * @returns {Promise<void>}
@@ -82,11 +59,16 @@ async function postStationBike(req, res) {
 
         if (!bikeFound) {
             return res.status(404).send({message: 'Bike not found'})
-        } else {
+        } else if (bikeFound.assigned === true) {
+            return res.status(500).send({message: 'Bike is assigned to another station'})
+        }
+        else {
             let stationUpdated = await Station.findOneAndUpdate({_id: stationId}, {$addToSet: {bikes: bikeId}});
             if (!stationUpdated) {
                 return res.status(404).send({message: 'Station not found'})
             }
+            let bikeUpdated = await Bike.findByIdAndUpdate({_id: bikeId}, {assigned: "true"});
+            console.log(bikeUpdated);
         }
         res.status(200).send({message: "Bike added successfully to the station"})
     } catch(err) {
@@ -121,26 +103,6 @@ async function getStationBikeDetail(req, res) {
 }
 
 /**
- * Delete a subject given its ID
- * @param req
- * @param res
- * @returns {Promise<*>}
- */
-async function deleteSubject(req, res) {
-    try{
-        const _id = req.params.subjectId;
-        let subject = await Subject.findByIdAndRemove(_id);
-        if(!subject){
-            return res.status(404).send({message: 'Subject not found'})
-        }else{
-            res.status(200).send({message:'Subject deleted successfully'})
-        }
-    }catch(err){
-        res.status(500).send(err)
-    }
-}
-
-/**
  * Delete a students inside a subject
  * @param req
  * @param res
@@ -164,6 +126,9 @@ async function deleteBikeStation(req,res) {
             if (stationUpdated.nModified === 0) {
                 return res.status(404).send({message: 'Bike not found'})
             }
+
+            let bikeUpdated = await Bike.findByIdAndUpdate({_id: bikeId}, {assigned: "false"});
+            console.log(bikeUpdated);
         }
         res.status(200).send({message:'Bike deleted successfully'});
     }catch(err){
@@ -178,9 +143,7 @@ async function deleteBikeStation(req,res) {
 module.exports = {
     postStation,
     getStations,
-    getSubjectDetail,
     postStationBike,
     getStationBikeDetail,
-    deleteSubject,
     deleteBikeStation
 };

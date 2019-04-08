@@ -1,4 +1,4 @@
-import { Student } from './student';
+import { Student } from './bike';
 
 describe('StudentService', () => {
   it('should create an instance', () => {

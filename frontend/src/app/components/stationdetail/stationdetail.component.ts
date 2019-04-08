@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {SubjectService} from '../../services/subject.service';
-import {Subject} from '../../models/subject';
+import {StationService} from '../../services/station.service';
+import {Station} from '../../models/station';
 
 @Component({
   selector: 'app-stationdetail',
@@ -10,42 +10,38 @@ import {Subject} from '../../models/subject';
 })
 export class StationdetailComponent implements OnInit {
 
-  subjectStudentDetail: Subject;
-  body: object;
+  stationBikeDetail: Station;
 
-  constructor(private activatedRouter: ActivatedRoute, private subjectService: SubjectService) {
-    this.subjectStudentDetail = new Subject();
+  constructor(private activatedRouter: ActivatedRoute, private stationService: StationService) {
+   this.stationBikeDetail = new Station();
   }
 
   ngOnInit() {
     this.activatedRouter.params.subscribe(params => {
       if (typeof params.id !== 'undefined') {
-        this.subjectStudentDetail._id = params.id;
+        this.stationBikeDetail._id = params.id;
       } else {
-        this.subjectStudentDetail._id = '';
+        this.stationBikeDetail._id = '';
       }
     });
-    this.getStudentDetail(this.subjectStudentDetail._id);
+    this.getBikeDetail(this.stationBikeDetail._id);
   }
 
-  async getStudentDetail(id: string) {
-    await this.subjectService.getStudentSubjectDetail(id)
+  async getBikeDetail(id: string) {
+    await this.stationService.getStationBikeDetail(id)
       .subscribe(res => {
         console.log(res);
-        this.subjectStudentDetail = res as Subject;
+        this.stationBikeDetail = res as Station;
       });
-    console.log(this.subjectStudentDetail);
+    console.log(this.stationBikeDetail);
   }
 
   deleteStudentSubject(id: string, i: number) {
-    this.body = {
-      subjectId: this.subjectStudentDetail._id,
-      studentId: id
-    };
     if (confirm('Are yo sure you want to delete it?')) {
-      this.subjectService.deleteStudentSubject(this.body)
+      this.stationService.deleteBikeStation(this.stationBikeDetail._id, id)
         .subscribe(res => {
-            this.subjectStudentDetail.students.splice(i, 1);
+            console.log(res);
+            this.stationBikeDetail.bikes.splice(i, 1);
           },
           err => {
             console.log(err);

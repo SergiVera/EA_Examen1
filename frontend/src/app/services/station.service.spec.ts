@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SubjectService } from './subject.service';
+import { SubjectService } from './station.service';
 
 describe('SubjectService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

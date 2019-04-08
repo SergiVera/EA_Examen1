@@ -1,148 +1,20 @@
-<h3 class="title">School</h3>
+<h3 class="title">Stations</h3>
 
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <!--Subject Table-->
-      <table class="table table-bordered table-hover">
-        <thead class="thead-dark">
-        <th scope="col"></th>
-        <th scope="col">Subject Name</th>
-        <th scope="col">Operations</th>
-        </thead>
-        <tbody>
-        <tr *ngFor="let subject of subjects; let i=index">
-          <td>
-            <mat-radio-button (click)="assignSubjectId(subject._id)"></mat-radio-button>
-          </td>
-          <td>{{subject.name}}</td>
-          <td>
-            <a (click)="studentSubjectDetail(subject._id)">
-              <i class="material-icons icon-blue">info</i>
-            </a>
-            <a data-toggle="modal" data-target="#seeEnrolled" (click)="subjectDetail(subject._id)">
-              <i class="material-icons">assignment_ind</i>
-            </a>
-            <a (click)="deleteSubject(subject._id, i)">
-              <i class="material-icons icon-red">delete</i>
-            </a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <button class="btn btn-primary" type="button" id="addSubject" data-toggle="modal" data-target="#newSubject">Add new Subject</button>
-    </div>
-
-    <div class="col">
-      <!--Student Table-->
-      <table class="table table-bordered table-hover">
-        <thead class="thead-dark">
-        <th scope="col">Student Name</th>
-        <th scope="col">Address</th>
-        <th colspan="4">Phones</th>
-        <th scope="col">Operations</th>
-        </thead>
-        <tbody>
-        <tr *ngFor="let student of students; let i=index">
-          <td>{{student.name}}</td>
-          <td>{{student.address}}</td>
-          <td>{{student.phones[0].key}}</td>
-          <td>{{student.phones[0].value}}</td>
-          <td>{{student.phones[1].key}}</td>
-          <td>{{student.phones[1].value}}</td>
-          <td>
-            <a data-toggle="modal" data-target="#warningSubject" (click)="addStudentSubject(student._id)">
-              <i class="material-icons icon-blue">add_circle</i>
-            </a>
-            <a (click)="updateStudent(student._id)">
-              <i class="material-icons">update</i>
-            </a>
-            <a (click)="deleteStudent(student._id, i)">
-              <i class="material-icons icon-red">delete</i>
-            </a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <button class="btn btn-primary" type="button" (click)="addNewStudent()" id="addStudent">Add new Student</button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Add Subject-->
-<div class="modal fade" id="newSubject" tabindex="-1" role="dialog" aria-labelledby="subjectLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="subjectLabel">New Subject</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="subjectForm">
-          <div class="form-group">
-            <div class="example-container">
-              <input type="text" id="subjectName" formControlName="name" placeholder="Subject Name" [(ngModel)]="subjectName"/>
-            </div>
-          </div>
-          <div class="validation-errors">
-            <ng-container *ngFor="let validation of validation_messages.name">
-              <div class="alert alert-danger" *ngIf="subjectForm.get('name').hasError(validation.type) && (subjectForm.get('name').dirty || subjectForm.get('name').touched)">
-                {{ validation.message }}
-              </div>
-            </ng-container>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" [disabled]="!subjectForm.valid" (click)="addNewSubject()" data-dismiss="modal">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal See Enrolled Students-->
-<div class="modal fade" id="seeEnrolled" tabindex="-1" role="dialog" aria-labelledby="studentLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="studentLabel">Enrolled Students</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div *ngFor="let student of singleSubject.students">
-          <label>{{student.name}}</label>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Warning when any subject is selected-->
-<div *ngIf="idSelectedSubject === ''">
-  <div class="modal fade" id="warningSubject" tabindex="-1" role="dialog" aria-labelledby="warningSubjectLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="warningSubjectLabel" style="color: red">Warning!</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <label>A subject must be selected before adding a student into a subject</label>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!--Stations Table-->
+<table class="table table-bordered table-hover">
+  <thead class="thead-dark">
+  <th scope="col">Station</th>
+  <th scope="col">State</th>
+  <th scope="col">Description</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let station of stations; let i=index">
+      <td>{{station.station}}</td>
+      <td>{{station.state}}</td>
+      <td>
+        {{station.description}}
+        <button class="btn btn-primary" type="button" (click)="bikeStationDetail(station._id)">View</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -11,17 +11,11 @@ const api = express.Router();
 api.get('/stations', stationCtrl.getStations);
 api.post('/stations/addbike', stationCtrl.postStationBike);
 api.post('/stations', stationCtrl.postStation);
-//api.get('/subjects/:subjectId', subjectCtrl.getSubjectDetail);
 api.get('/stations/:stationId/bikedetail', stationCtrl.getStationBikeDetail);
-//api.delete('/subjects/:subjectId', subjectCtrl.deleteSubject);
 api.delete('/stations/:stationId/deletebike/:bikeId', stationCtrl.deleteBikeStation);
 
 api.get('/bikes', bikeCtrl.getBikes);
-api.get('/bikes/unassigned', bikeCtrl.getUnassaignedBikes);
-//api.get('/students/:studentId', studentCtrl.getSingleStudent);
+api.get('/bikes/unassigned', bikeCtrl.getUnassignedBikes);
 api.post('/bikes', bikeCtrl.postBike);
-/*api.delete('/students/:studentId', studentCtrl.deleteStudent);
-api.put('/students/:studentId', studentCtrl.updateStudent);*/
-
 
 module.exports = api;

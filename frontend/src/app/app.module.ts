@@ -18,16 +18,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StationdetailComponent } from './components/stationdetail/stationdetail.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AddstudentComponent } from './components/addstudent/addstudent.component';
-import { UpdatestudentComponent } from './components/updatestudent/updatestudent.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StationdetailComponent,
     DashboardComponent,
-    AddstudentComponent,
-    UpdatestudentComponent
   ],
   imports: [
     BrowserModule,
