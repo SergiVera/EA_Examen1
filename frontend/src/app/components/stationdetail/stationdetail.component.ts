@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StationService} from '../../services/station.service';
 import {Station} from '../../models/station';
+import {BikeService} from "../../services/bike.service";
+import {Bike} from "../../models/bike";
 
 @Component({
   selector: 'app-stationdetail',
@@ -11,9 +13,12 @@ import {Station} from '../../models/station';
 export class StationdetailComponent implements OnInit {
 
   stationBikeDetail: Station;
+  unassignedBikes: Bike[];
+  body: object;
 
-  constructor(private activatedRouter: ActivatedRoute, private stationService: StationService) {
+  constructor(private activatedRouter: ActivatedRoute, private stationService: StationService, private bikeService: BikeService) {
    this.stationBikeDetail = new Station();
+   this.unassignedBikes = [];
   }
 
   ngOnInit() {
@@ -25,6 +30,16 @@ export class StationdetailComponent implements OnInit {
       }
     });
     this.getBikeDetail(this.stationBikeDetail._id);
+    this.getUnassignedBikes();
+  }
+
+  async getUnassignedBikes() {
+    await this.bikeService.getUnassignedBikes()
+      .subscribe(res => {
+        console.log(res);
+        this.unassignedBikes = res as Bike[];
+      });
+    console.log(this.unassignedBikes);
   }
 
   async getBikeDetail(id: string) {
@@ -36,16 +51,33 @@ export class StationdetailComponent implements OnInit {
     console.log(this.stationBikeDetail);
   }
 
-  deleteStudentSubject(id: string, i: number) {
+  async deleteBikeStation(id: string, i: number) {
     if (confirm('Are yo sure you want to delete it?')) {
-      this.stationService.deleteBikeStation(this.stationBikeDetail._id, id)
+      await this.stationService.deleteBikeStation(this.stationBikeDetail._id, id)
         .subscribe(res => {
             console.log(res);
             this.stationBikeDetail.bikes.splice(i, 1);
+            this.getUnassignedBikes();
           },
           err => {
             console.log(err);
           });
       }
     }
+
+  async addBikeStation(id: string, i: number) {
+    this.body = {
+      stationId: this.stationBikeDetail._id,
+      bikeId: id
+    };
+    await this.stationService.postBikeStation(this.body)
+      .subscribe(res => {
+          console.log(res);
+          this.unassignedBikes.splice(i, 1);
+          this.getBikeDetail(this.stationBikeDetail._id);
+        },
+        err => {
+          console.log(err);
+        });
+  }
 }

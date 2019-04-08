@@ -1,4 +1,4 @@
-<h3 class="title">{{stationBikeDetail.station}}</h3>
+<h3 class="title">{{stationBikeDetail.station}}: Current Bikes</h3>
 
 <table class="table table-bordered table-hover">
   <thead class="thead-dark">
@@ -15,6 +15,26 @@
         <button class="btn btn-danger" type="button" (click)="deleteBikeStation(bike._id, i)">Delete</button>
       </td>
     </tr>
+  </tbody>
+</table>
+
+<h3 class="title">Unassigned Bikes</h3>
+
+<table class="table table-bordered table-hover">
+  <thead class="thead-dark">
+  <th scope="col">Bike</th>
+  <th scope="col">Kms</th>
+  <th scope="col">Description</th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let bike of unassignedBikes; let i=index">
+    <td>{{bike.bike}}</td>
+    <td>{{bike.kms}}</td>
+    <td>
+      {{bike.description}}
+      <button class="btn btn-success" type="button" (click)="addBikeStation(bike._id, i)">+</button>
+    </td>
+  </tr>
   </tbody>
 </table>
 

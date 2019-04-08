@@ -13,15 +13,7 @@ export class BikeService {
     this.environment = new Environment();
   }
 
-  getBikes() {
-    return this.http.get(this.environment.urlBike);
-  }
-
   getUnassignedBikes() {
     return this.http.get(this.environment.urlBike + '/unassigned');
-  }
-
-  deleteBike(id: string) {
-    return this.http.delete(this.environment.urlBike + `/${id}`);
   }
 }
