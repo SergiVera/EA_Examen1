@@ -8,6 +8,8 @@ const api = express.Router();
 /**
  * Routes restful API
  */
+api.get('/', stationCtrl.getText);
+
 api.get('/stations', stationCtrl.getStations);
 api.post('/stations/addbike', stationCtrl.postStationBike);
 api.post('/stations', stationCtrl.postStation);

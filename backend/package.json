@@ -2,7 +2,7 @@
   "name": "cookinea",
   "version": "1.0.0",
   "description": "CookinEA Project",
-  "main": "backend/index.js",
+  "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"

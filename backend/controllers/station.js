@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const Bike = require('../models/bike');
 const Station = require('../models/station');
 
+async function getText(req, res) {
+    res.status(200).send({message: "Hello World!"})
+}
+
 /**
  * Add new Station to the station collection
  * @param req
@@ -141,6 +145,7 @@ async function deleteBikeStation(req,res) {
  * @type {{getSubjectDetail: getSubjectDetail, postSubject: postSubject, deleteSubject: deleteSubject, postStudentSubject: postStudentSubject, getSubjects: getSubjects, deleteStudentSubject: deleteStudentSubject, getStudentSubjectDetail: getStudentSubjectDetail}}
  */
 module.exports = {
+    getText,
     postStation,
     getStations,
     postStationBike,

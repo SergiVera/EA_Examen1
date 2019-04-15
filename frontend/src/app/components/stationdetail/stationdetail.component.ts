@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StationService} from '../../services/station.service';
 import {Station} from '../../models/station';
-import {BikeService} from "../../services/bike.service";
-import {Bike} from "../../models/bike";
+import {BikeService} from '../../services/bike.service';
+import {Bike} from '../../models/bike';
 
 @Component({
   selector: 'app-stationdetail',
@@ -52,7 +52,7 @@ export class StationdetailComponent implements OnInit {
   }
 
   async deleteBikeStation(id: string, i: number) {
-    if (confirm('Are yo sure you want to delete it?')) {
+    if (confirm('Are you sure you want to delete the bike?')) {
       await this.stationService.deleteBikeStation(this.stationBikeDetail._id, id)
         .subscribe(res => {
             console.log(res);
@@ -62,8 +62,8 @@ export class StationdetailComponent implements OnInit {
           err => {
             console.log(err);
           });
-      }
     }
+  }
 
   async addBikeStation(id: string, i: number) {
     this.body = {
